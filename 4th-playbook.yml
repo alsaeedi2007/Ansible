@@ -1,0 +1,50 @@
+---
+- name: collect information
+      ios_command:
+       commands:
+        - show version
+        - show ip interface brief
+        - show inventory
+        - show run
+      register: switch_config
+
+    - name: save collected infromation in data directory
+      copy:
+       dest: "PM.txt"
+       content: |
+        show version
+        ------------
+        {{ switch_config.stdout[0] }}
+
+        show ip interface brief
+        --------------------
+
+        {{ switch_config.stdout[1] }}
+        show inventory
+        --------------
+        {{ switch_config.stdout[2] }}
+
+        show run
+        --------
+        {{ switch_config.stdout[3] }}
+
+# Gather Ansible Facts About Core #
+    - name: Collect core facts
+      ios_facts:
+       gather_subset: all
+       
+    - name: save core facts in a file
+      copy: "core_facts.txt"
+      content: |
+
+    - debug:
+       msg:
+        - "{{ ansible_net_hostname }}"
+        - "{{ ansible_net_image }}"
+        - "{{ ansible_net_iostype }}"
+        - "{{ ansible_net_model }}"
+        - "{{ ansible_net_version }}"
+
+       
+      
+
