@@ -1,4 +1,3 @@
----
 - name: collect information
       ios_command:
        commands:
