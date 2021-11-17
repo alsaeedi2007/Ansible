@@ -1,0 +1,37 @@
+---
+ - name: collect version
+   hosts: access_switches
+
+   tasks:
+
+    - name: Configuration Backup
+      ios_config:
+       backup: yes
+       backup_options:
+        filename: "{{ ansible_net_hostname }}.cfg"
+        dir_path: /home/tftproot/
+
+    - name: collect information
+      ios_command:
+       commands:
+        - show version
+        - show ip interface brief
+        - show inventory
+        - show run
+      register: switch_config
+
+    - name: save collected infromation in data directory
+      copy:
+       dest: "PM.txt"
+       content: |
+        show version
+        ------------
+        {{ switch_config.stdout[0] }}
+
+        show ip interface brief
+        --------------------
+
+        {{ switch_config.stdout[1] }}
+        show inventory
+        --------------
+        {{ switch_config.stdout[2] }}
