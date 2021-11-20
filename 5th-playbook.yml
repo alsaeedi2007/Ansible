@@ -1,0 +1,14 @@
+---
+- name: test playbook
+  hosts: access_switches
+
+
+  tasks:
+   - name: print core facts
+     copy:
+      dest: "/home/tftproot/PM-facts.txt"
+      content: |
+       hostname is : {{ansible_net_hostname}}
+       image name is: {{ansible_net_image}}
+       software version is: {{ansible_net_version}}
+       model is : {{ansible_net_model}}
