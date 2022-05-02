@@ -5,8 +5,8 @@
 
 [access_switches:vars]
 
-ansible_user=iseuser1 
-ansible_password=123456
+ansible_user=<username> 
+ansible_password=<password>
 ansible_connection=network_cli
 ansible_network_os=ios
 
